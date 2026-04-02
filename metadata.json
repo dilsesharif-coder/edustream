@@ -1,0 +1,8 @@
+{
+  "name": "EduStream: Online Learning Platform",
+  "description": "A comprehensive online education system with video feeds, profile interactions, document sharing, and virtual classrooms.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "bio": { "type": "string" },
+        "followersCount": { "type": "number" },
+        "followingCount": { "type": "number" },
+        "likesReceivedCount": { "type": "number" }
+      },
+      "required": ["uid", "displayName", "email"]
+    },
+    "Video": {
+      "title": "Educational Video",
+      "description": "Metadata for uploaded educational videos",
+      "type": "object",
+      "properties": {
+        "uploaderUid": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "videoUrl": { "type": "string" },
+        "thumbnailUrl": { "type": "string" },
+        "likesCount": { "type": "number" },
+        "category": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "rating": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uploaderUid", "title", "videoUrl", "createdAt"]
+    },
+    "Document": {
+      "title": "Educational Document",
+      "description": "Metadata for uploaded educational documents",
+      "type": "object",
+      "properties": {
+        "uploaderUid": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "fileType": { "type": "string" },
+        "category": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "rating": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uploaderUid", "title", "fileUrl", "createdAt"]
+    },
+    "Classroom": {
+      "title": "Online Classroom",
+      "description": "A virtual space for learning and discussion",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "creatorUid": { "type": "string" },
+        "category": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "members": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "creatorUid", "createdAt"]
+    },
+    "Message": {
+      "title": "Classroom Message",
+      "description": "A message sent within a classroom chat",
+      "type": "object",
+      "properties": {
+        "classroomId": { "type": "string" },
+        "senderUid": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["classroomId", "senderUid", "text", "createdAt"]
+    },
+    "Notification": {
+      "title": "User Notification",
+      "description": "Alerts for user activities like follows, likes, and messages",
+      "type": "object",
+      "properties": {
+        "recipientUid": { "type": "string" },
+        "senderUid": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderPhotoURL": { "type": "string" },
+        "type": { "type": "string", "enum": ["follow", "like", "message"] },
+        "targetId": { "type": "string" },
+        "targetTitle": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recipientUid", "senderUid", "senderName", "type", "targetId", "read", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "User profiles" },
+    "/videos/{videoId}": { "schema": "Video", "description": "Educational videos" },
+    "/documents/{docId}": { "schema": "Document", "description": "Educational documents" },
+    "/classrooms/{classroomId}": { "schema": "Classroom", "description": "Virtual classrooms" },
+    "/classrooms/{classroomId}/messages/{messageId}": { "schema": "Message", "description": "Chat messages in classrooms" },
+    "/follows/{followId}": { "schema": { "type": "object", "properties": { "followerUid": { "type": "string" }, "followingUid": { "type": "string" } } }, "description": "Follow relationships" },
+    "/likes/{likeId}": { "schema": { "type": "object", "properties": { "userUid": { "type": "string" }, "videoId": { "type": "string" } } }, "description": "Video likes" },
+    "/notifications/{notificationId}": { "schema": "Notification", "description": "User notifications" }
+  }
+}
